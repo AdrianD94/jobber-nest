@@ -21,17 +21,17 @@ export interface User {
 
 export const AUTH_PACKAGE_NAME = 'auth';
 
-export interface AuthClient {
+export interface AuthServiceClient {
   authenticate(request: AuthenticateRequest): Observable<User>;
 }
 
-export interface AuthController {
+export interface AuthServiceController {
   authenticate(
     request: AuthenticateRequest
   ): Promise<User> | Observable<User> | User;
 }
 
-export function AuthControllerMethods() {
+export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = ['authenticate'];
     for (const method of grpcMethods) {
@@ -39,7 +39,7 @@ export function AuthControllerMethods() {
         constructor.prototype,
         method
       );
-      GrpcMethod('Auth', method)(
+      GrpcMethod('AuthService', method)(
         constructor.prototype[method],
         method,
         descriptor
@@ -51,7 +51,7 @@ export function AuthControllerMethods() {
         constructor.prototype,
         method
       );
-      GrpcStreamMethod('Auth', method)(
+      GrpcStreamMethod('AuthService', method)(
         constructor.prototype[method],
         method,
         descriptor
@@ -60,4 +60,4 @@ export function AuthControllerMethods() {
   };
 }
 
-export const AUTH_SERVICE_NAME = 'Auth';
+export const AUTH_SERVICE_NAME = 'AuthService';

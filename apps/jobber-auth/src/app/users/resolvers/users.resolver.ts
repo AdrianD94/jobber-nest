@@ -3,7 +3,7 @@ import { UsersService } from '../services/users.service';
 import { User } from '../models/user.model';
 import { UserInput } from '../dto/user.input';
 import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuards } from '../../auth/guards/gql.auth.guard';
+import { GqlAuthGuard } from '../../auth/guards/gql.auth.guard';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { TokenPayload } from '../../auth/interfaces/token-payload.interface';
 
@@ -11,7 +11,7 @@ import { TokenPayload } from '../../auth/interfaces/token-payload.interface';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(GqlAuthGuards)
+  @UseGuards(GqlAuthGuard)
   @Query(() => [User], { name: 'users' })
   async getUsers(@CurrentUser() { userId }: TokenPayload): Promise<User[]> {
     console.log(userId);
