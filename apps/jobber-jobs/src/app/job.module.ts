@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { FibonnaciJob } from './jobs/fibonnaci.job';
+import { FibonacciJob } from './jobs/fibonacci.job';
 import { DiscoveryModule } from '@golevelup/nestjs-discovery';
 import { JobsService } from './services/job-service';
 import { JobsResolver } from './resolvers/jobs.resolver';
@@ -23,6 +23,6 @@ import { PulsarModule } from '@jobber/pulsar';
       },
     ]),
   ],
-  providers: [FibonnaciJob, JobsService, JobsResolver],
+  providers: [FibonacciJob, JobsService, JobsResolver],
 })
 export class JobModule {}
