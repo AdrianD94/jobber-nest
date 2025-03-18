@@ -6,3 +6,9 @@ services:
       - '5432:5432'
     environment:
       POSTGRES_PASSWORD: password
+  pulsar:
+    image: apachepulsar/pulsar
+    ports:
+      - 6650:6650
+    command: >
+      /pulsar/bin/pulsar standalone
