@@ -36,6 +36,7 @@ export class JobsService implements OnModuleInit {
         'Job is not an instance of AbstractJob'
       );
     }
+
     await job.discoveredClass.instance.execute(data, job.meta.name);
     return job.meta;
   }
