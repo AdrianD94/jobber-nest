@@ -65,7 +65,7 @@ jobs:
             DOCKERFILE=$(echo $image | cut -d' ' -f2)
             
             {
-              docker build \ 
+              docker build \
                 --tag 970547339844.dkr.ecr.eu-central-1.amazonaws.com/jobber/$NAME:latest \
                 -f $DOCKERFILE \
                 . && docker push 970547339844.dkr.ecr.eu-central-1.amazonaws.com/jobber/$NAME:latest
