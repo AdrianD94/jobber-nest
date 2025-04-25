@@ -8,6 +8,7 @@ COPY tsconfig*.json ./
 COPY jest.config.ts ./
 COPY jest.preset.js ./
 COPY eslint.config.mjs ./
+COPY webpack.*.config.js ./
 
 COPY apps/jobs ./apps/jobs
 COPY libs/graphql ./libs/graphql
