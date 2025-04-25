@@ -55,9 +55,9 @@ jobs:
       - name: Build and push images to ECR
         run: |
           IMAGES=(
-            "jobs apps/jobs/Dockerfile",
-            "auth apps/auth/Dockerfile",
-            "executor apps/executor/Dockerfile",
+            "jobs apps/jobs/Dockerfile"
+            "auth apps/auth/Dockerfile"
+            "executor apps/executor/Dockerfile"
           )
 
           for image in "${IMAGES[@]}"; do
