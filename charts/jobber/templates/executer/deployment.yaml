@@ -1,28 +1,28 @@
-{{- if .Values.jobs.enabled}}
+{{- if .Values.executor.enabled}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jobs
+  name: executor
   labels: 
-    app: jobs
+    app: executor
 spec:
-  replicas: {{ .Values.jobs.replicas }}
+  replicas: {{ .Values.executor.replicas }}
   selector:
     matchLabels:
-      app: jobs
+      app: executor
   template:
     metadata:
       labels:
-        app: jobs
+        app: executor
     spec:
       containers:
-        - name: jobs
-          image: {{ .Values.jobs.image }}
+        - name: executor
+          image: {{ .Values.executor.image }}
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           ports:
-            - containerPort: {{ .Values.jobs.port }}
+            - containerPort: {{ .Values.executor.port }}
           env:
             {{- include "common.env" . | nindent 12 }}
             - name: PORT
-              value: "{{ .Values.jobs.port }}"
+              value: "{{ .Values.executor.port }}"
 {{- end}}
