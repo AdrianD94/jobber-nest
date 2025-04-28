@@ -2,6 +2,8 @@ FROM node:22-slim AS builder
 
 WORKDIR /workspace
 
+RUN apt-get update && apt-get install -y open-ssl
+
 COPY package.json ./
 COPY nx.json ./
 COPY tsconfig*.json ./
@@ -22,6 +24,8 @@ RUN apt-get update && apt-get install -y protobuf-compiler
 RUN npx nx build auth
 
 FROM node:22-slim AS runner
+
+RUN apt-get update && apt-get install -y open-ssl
 
 WORKDIR /app
 
