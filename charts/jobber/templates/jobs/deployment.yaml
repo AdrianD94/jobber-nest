@@ -25,4 +25,4 @@ spec:
             {{- include "common.env" . | nindent 12 }}
             - name: PORT
               value: "{{ .Values.jobs.port }}"
-{{- end}}
+{{- end }}
