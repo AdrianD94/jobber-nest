@@ -64,5 +64,5 @@ auth:
     grpc: 5000
   jwt:
     secret: 21gindsinjihjgfijfsdiofjsihjgfoihjgfoihjifhegrg3ttrhrhgsssg
-    expirationMs: 28800000
+    expirationMs: "28800000"
 
