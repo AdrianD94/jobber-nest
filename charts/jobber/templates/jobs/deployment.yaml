@@ -32,7 +32,7 @@ spec:
           image: {{ .Values.jobs.image }}
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           volumeMounts:
-            - name: uploads-volue
+            - name: uploads-volume
               mountPath: /apps/jobs/uploads
           ports:
             - containerPort: {{ .Values.jobs.port.http }}
@@ -45,10 +45,10 @@ spec:
               value: "{{ .Values.jobs.port.http }}"
             - name: JOBS_GRPC_SERVICE_URL
               value: "0.0.0.0:{{ .Values.jobs.port.grpc }}"
-            - name: DATABASE
+            - name: DATABASE_URL
               value: postgresql://postgres:postgres@{{ .Release.Name }}-postgresql.postgresql.svc.cluster.local:5432/jobs
       volumes:
-        - name: uploads-volue
+        - name: uploads-volume
           persistentVolumeClaim:
             claimName: uploads-pvc
 
