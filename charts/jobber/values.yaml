@@ -40,12 +40,12 @@ postgresql:
   auth:
     username: postgres
     password: postgres
-    database: jobber
   primary:
     initdb:
-      scripts: |
-        CREATE DATABASE auth;
-        CREATE DATABASE products;
+      scripts: 
+        create-dbs.sql: |
+          CREATE DATABASE auth;
+          CREATE DATABASE products;
 
 
 
