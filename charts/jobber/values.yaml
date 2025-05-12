@@ -41,6 +41,12 @@ postgresql:
     username: postgres
     password: postgres
     database: jobber
+  primary:
+    initdb:
+      scripts: |
+        CREATE DATABASE auth;
+        CREATE DATABASE products;
+
 
 
 jobs:
@@ -65,4 +71,12 @@ auth:
   jwt:
     secret: 21gindsinjihjgfijfsdiofjsihjgfoihjgfoihjifhegrg3ttrhrhgsssg
     expirationMs: "28800000"
+
+products:
+  enabled: true
+  replicas: 1
+  image: 970547339844.dkr.ecr.eu-central-1.amazonaws.com/jobber/products:latest
+  port: 
+    http: 3003
+    grpc: 5001
 
