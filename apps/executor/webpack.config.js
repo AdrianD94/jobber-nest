@@ -4,6 +4,6 @@ const commonConfig = require('../../webpack.app.config');
 
 module.exports = merge(commonConfig, {
   output: {
-    path: join(__dirname, '../../dist/app/executor'),
+    path: join(__dirname, '../../dist/apps/executor'),
   },
 });
