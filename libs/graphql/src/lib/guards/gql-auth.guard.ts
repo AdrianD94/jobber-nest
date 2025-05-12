@@ -1,3 +1,4 @@
+import { Packages, AUTH_SERVICE_NAME, AuthServiceClient } from '@jobber/grpc';
 import {
   CanActivate,
   ExecutionContext,
@@ -9,12 +10,11 @@ import {
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { ClientGrpc } from '@nestjs/microservices';
 import { catchError, map, Observable, of } from 'rxjs';
-import { AUTH_PACKAGE_NAME, AUTH_SERVICE_NAME, AuthServiceClient } from '@jobber/grpc';
 @Injectable()
 export class GqlAuthGuard implements CanActivate, OnModuleInit {
   private authService: AuthServiceClient;
   private readonly logger = new Logger(GqlAuthGuard.name);
-  constructor(@Inject(AUTH_PACKAGE_NAME) private client: ClientGrpc) {}
+  constructor(@Inject(Packages.AUTH) private client: ClientGrpc) {}
 
   canActivate(context: ExecutionContext): boolean | Observable<boolean> {
     const token = this.getRequest(context).cookies?.Authentication;

@@ -11,6 +11,7 @@ export class PulsarClient implements OnModuleDestroy {
   constructor(private readonly configService: ConfigService) {}
   async createProducer(topic: string) {
     const producer = await this.pulsarClient.createProducer({
+      blockIfQueueFull: true,
       topic,
     });
     this.producers.push(producer);

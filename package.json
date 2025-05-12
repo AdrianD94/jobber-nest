@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": " nx run-many -t serve -p auth jobs executor"
+    "start": " nx run-many -t serve -p auth jobs executor products --parallel 4 "
   },
   "workspaces": [
     "apps/*",
@@ -16,6 +16,7 @@
     "@nestjs/core": "^10.0.2",
     "@nestjs/microservices": "^11.0.11",
     "@nestjs/platform-express": "^10.0.2",
+    "drizzle-orm": "^0.43.1",
     "axios": "^1.6.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",

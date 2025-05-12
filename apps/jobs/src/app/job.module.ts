@@ -1,26 +1,29 @@
-import { Module } from '@nestjs/common';
-import { FibonacciJob } from './jobs/fibonacci.job';
 import { DiscoveryModule } from '@golevelup/nestjs-discovery';
-import { JobsService } from './services/job-service';
-import { JobsResolver } from './resolvers/jobs.resolver';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AUTH_PACKAGE_NAME } from '@jobber/grpc';
-import { join } from 'path';
+import { Packages } from '@jobber/grpc';
 import { PulsarModule } from '@jobber/pulsar';
+import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { join } from 'path';
+import { FibonacciJob } from './jobs/fibonnaci/fibonacci.job';
+import { JobsResolver } from './resolvers/jobs.resolver';
+import { JobsService } from './services/job-service';
+import { UploadModule } from './upload/upload.module';
+import { LoadProductsJob } from './jobs/products/load-products.job';
 
 @Module({
   imports: [
     DiscoveryModule,
     PulsarModule,
+    UploadModule,
     ClientsModule.registerAsync([
       {
-        name: AUTH_PACKAGE_NAME,
+        name: Packages.AUTH,
         useFactory: (configService: ConfigService) => ({
           transport: Transport.GRPC,
           options: {
             url: configService.getOrThrow('AUTH_GRPC_SERVICE_URL'),
-            package: AUTH_PACKAGE_NAME,
+            package: Packages.AUTH,
             protoPath: join(__dirname, '../../libs/grpc/proto/auth.proto'),
           },
         }),
@@ -28,6 +31,6 @@ import { ConfigService } from '@nestjs/config';
       },
     ]),
   ],
-  providers: [FibonacciJob, JobsService, JobsResolver],
+  providers: [FibonacciJob, JobsService, JobsResolver, LoadProductsJob],
 })
 export class JobModule {}

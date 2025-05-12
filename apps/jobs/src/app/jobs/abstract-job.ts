@@ -1,7 +1,6 @@
 import { plainToInstance } from 'class-transformer';
 import { PulsarClient, serialize } from '@jobber/pulsar';
 import { Producer } from 'pulsar-client';
-import { FibonacciData } from './jobs/fibonacci-data.message';
 import { validate } from 'class-validator';
 import { BadRequestException } from '@nestjs/common';
 
@@ -10,8 +9,6 @@ export abstract class AbstractJob<T extends object> {
   protected abstract messageClass: new () => T;
   constructor(private readonly pulsarClient: PulsarClient) {}
   async execute(data: T, job: string) {
-    await this.validateData(data);
-
     if (!this.producer) {
       this.producer = await this.pulsarClient.createProducer(job);
     }
@@ -34,7 +31,9 @@ export abstract class AbstractJob<T extends object> {
     }
   }
 
-  private async send(data: T) {
-    await this.producer.send({ data: serialize(data) });
+  private send(data: T) {
+    this.validateData(data).then(() =>
+      this.producer.send({ data: serialize(data) })
+    );
   }
 }
