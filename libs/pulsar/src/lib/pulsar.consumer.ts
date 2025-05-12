@@ -19,7 +19,6 @@ export abstract class PulsarConsumer<T> implements OnModuleInit {
   protected abstract onMessage(message: T): Promise<void>;
 
   private async listener(message: Message) {
-    console.log(message);
     try {
       const data = deserialize<T>(message.getData());
       this.logger.log(`Received message ${JSON.stringify(data)}`);

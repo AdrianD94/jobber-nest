@@ -11,6 +11,7 @@
         "command": "webpack-cli build",
         "args": ["node-env=production"]
       },
+      "dependsOn": ["generate-prisma", "^build"],
       "configurations": {
         "development": {
           "args": ["node-env=development"]
@@ -34,7 +35,22 @@
         }
       }
     },
+    "generate-prisma": {
+      "command": "prisma generate",
+      "cache": true,
+      "options": {
+        "cwd": "{projectRoot}",
+        "input": ["prisma/schema.prisma"]
+      }
+    },
+    "prisma-migrate": {
+      "command": "prisma migrate dev",
+      "options": {
+        "cwd": "{projectRoot}"
+      }
+    },
     "test": {
+      "dependsOn": ["generate-prisma"],
       "options": {
         "passWithNoTests": true
       }

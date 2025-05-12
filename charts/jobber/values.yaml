@@ -46,6 +46,7 @@ postgresql:
         create-dbs.sql: |
           CREATE DATABASE auth;
           CREATE DATABASE products;
+          CREATE DATABASE jobs;
 
 
 
@@ -53,7 +54,9 @@ jobs:
   enabled: true
   replicas: 1
   image: 970547339844.dkr.ecr.eu-central-1.amazonaws.com/jobber/jobs:latest
-  port: 3001
+  port:
+    http: 3001
+    grpc: 5002
 
 executor:
   enabled: true

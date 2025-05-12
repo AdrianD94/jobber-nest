@@ -4,6 +4,7 @@ import { JobsService } from '../services/job-service';
 import { ExecuteJobInput } from '../dto/execute-job.input';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '@jobber/graphql';
+import { jobsInProgress } from '../models/jobs-in-progress.model';
 
 @Resolver()
 export class JobsResolver {
@@ -22,5 +23,10 @@ export class JobsResolver {
       executeJobInput.name,
       executeJobInput.data
     );
+  }
+  @Query(() => [jobsInProgress], { name: 'jobsInProgress' })
+  @UseGuards(GqlAuthGuard)
+  async getJobsInProgress() {
+    return this.jobsService.getJobsInProgress();
   }
 }

@@ -10,11 +10,14 @@ import { JobsResolver } from './resolvers/jobs.resolver';
 import { JobsService } from './services/job-service';
 import { UploadModule } from './upload/upload.module';
 import { LoadProductsJob } from './jobs/products/load-products.job';
+import { PrismaModule } from './prisma/prisma.module';
+import { JobsController } from './jobs.controller';
 
 @Module({
   imports: [
     DiscoveryModule,
     PulsarModule,
+    PrismaModule,
     UploadModule,
     ClientsModule.registerAsync([
       {
@@ -32,5 +35,6 @@ import { LoadProductsJob } from './jobs/products/load-products.job';
     ]),
   ],
   providers: [FibonacciJob, JobsService, JobsResolver, LoadProductsJob],
+  controllers: [JobsController],
 })
 export class JobModule {}

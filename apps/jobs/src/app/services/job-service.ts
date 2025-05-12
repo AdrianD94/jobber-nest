@@ -13,11 +13,17 @@ import { JobMetadata } from '../interfaces/job-metadata.interface';
 import { AbstractJob } from '../jobs/abstract-job';
 import { readFileSync } from 'fs';
 import { UPLOAD_FILE_PATH } from '../upload/upload';
+import { PrismaService } from '../prisma/prisma.service';
+import { JobStatus } from '../models/job-status.enum';
+import { Job } from '@prisma-clients/jobs';
 
 @Injectable()
 export class JobsService implements OnModuleInit {
   private jobs: DiscoveredClassWithMeta<JobMetadata>[];
-  constructor(private readonly discoveryService: DiscoveryService) {}
+  constructor(
+    private readonly discoveryService: DiscoveryService,
+    private readonly prismaService: PrismaService
+  ) {}
   async onModuleInit() {
     this.jobs = await this.discoveryService.providersWithMetaAtKey<JobMetadata>(
       JOB_METADATA_KEY
@@ -25,7 +31,6 @@ export class JobsService implements OnModuleInit {
   }
 
   getJobs() {
-    console.log('Jobs:', this.jobs);
     return this.jobs.map((job) => job.meta);
   }
 
@@ -60,5 +65,45 @@ export class JobsService implements OnModuleInit {
         `Error reading file ${fileName}: ${error.message}`
       );
     }
+  }
+
+  async acknowledge(jobId: number) {
+    const job = await this.prismaService.job.findUnique({
+      where: { id: jobId },
+    });
+    if (!job) {
+      throw new BadRequestException(`Job ${jobId} does not exists`);
+    }
+    if (job.ended) {
+      return;
+    }
+    const updatedJob = await this.prismaService.job.update({
+      where: { id: jobId },
+      data: {
+        completed: { increment: 1 },
+      },
+    });
+    if (updatedJob.completed === job.size) {
+      await this.prismaService.job.update({
+        where: { id: jobId },
+        data: {
+          status: JobStatus.COMPLETED,
+          ended: new Date(),
+        },
+      });
+    }
+    return updatedJob;
+  }
+
+  async getJobsInProgress(): Promise<Job[]> {
+    const job = await this.prismaService.job.findMany({
+      where: {
+        status: JobStatus.IN_PROGRESS,
+      },
+    });
+    if (!job) {
+      throw new BadRequestException(`No job in progress`);
+    }
+    return job;
   }
 }
