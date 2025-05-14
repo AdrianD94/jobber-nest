@@ -1,0 +1,35 @@
+ingress:
+  alb: true
+
+persistence:
+  ebs: true
+
+auth:
+  jwt:
+    secure: true
+
+pulsar:
+  global:
+    storageClass: "ebs-sc"
+  
+  zookeeper:
+    persistence:
+      storageClass: "ebs-sc"
+    volumes:
+      data:
+        storageClassName: "ebs-sc"
+
+  bookkeeper:
+    volumes:
+      journal:
+        storageClassName: "ebs-sc"
+      ledgers:
+        storageClassName: "ebs-sc"
+
+postgresql:
+  primary:
+    resources:
+      limits:
+        cpu: 1
+    persistence:
+      storageClass: "ebs-sc"
