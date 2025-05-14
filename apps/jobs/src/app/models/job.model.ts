@@ -2,7 +2,7 @@ import { AbstractSchema } from '@jobber/graphql';
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class jobsInProgress extends AbstractSchema {
+export class Job extends AbstractSchema {
   @Field()
   name: string;
 

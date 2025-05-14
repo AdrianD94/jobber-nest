@@ -30,7 +30,7 @@ export class JobsService implements OnModuleInit {
     );
   }
 
-  getJobs() {
+  getJobMetadata() {
     return this.jobs.map((job) => job.meta);
   }
 
@@ -45,11 +45,10 @@ export class JobsService implements OnModuleInit {
       );
     }
 
-    await job.discoveredClass.instance.execute(
+    return job.discoveredClass.instance.execute(
       data.fileName ? this.getFile(data.fileName) : data,
       job.meta.name
     );
-    return job.meta;
   }
 
   private getFile(fileName?: string) {
@@ -95,15 +94,11 @@ export class JobsService implements OnModuleInit {
     return updatedJob;
   }
 
-  async getJobsInProgress(): Promise<Job[]> {
-    const job = await this.prismaService.job.findMany({
-      where: {
-        status: JobStatus.IN_PROGRESS,
-      },
-    });
-    if (!job) {
-      throw new BadRequestException(`No job in progress`);
-    }
-    return job;
+  async getJobs(): Promise<Job[]> {
+    return this.prismaService.job.findMany();
+  }
+
+  async getJob(id: number): Promise<Job> {
+    return this.prismaService.job.findUnique({ where: { id } });
   }
 }

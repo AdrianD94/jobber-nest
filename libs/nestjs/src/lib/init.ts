@@ -6,8 +6,7 @@
 import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as cookieParser from 'cookie-parser';
-export async function init(app: INestApplication) {
-  const globalPrefix = 'api';
+export async function init(app: INestApplication, globalPrefix = 'api') {
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix(globalPrefix);
   app.use(cookieParser());
